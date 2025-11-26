@@ -1,0 +1,465 @@
+{
+	"info": {
+		"_postman_id": "b6d10df0-f193-471e-b896-f668e2ccd034",
+		"name": "Beechem_apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26836434"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "nanesh.g3interactive@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "web_user",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "mob_user",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://beechem.ishtech.live/api/login",
+					"protocol": "https",
+					"host": [
+						"beechem",
+						"ishtech",
+						"live"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				},
+				"description": "This endpoint is for API login\n\n1. **PARAMETERS:**\n    \n\nemail : required , email\n\npassword : required, string\n\nweb_user: optional, integer (pass 1 for mobile login)\n\n---\n\n**2\\. RESPONSE:**\n\n{  \n\"status\": true,  \n\"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNjgyZmQ2ODJhYjkzNGRmODI1Njk3NGE2M2RiNDdhNzdlNzdjNGQ2ZmFkMjVhYjcwOWVkMTU1Y2ZkMWRlNDJhZDViNDJlY2ZlM2IzNWY2YzciLCJpYXQiOjE3MzUyMDA3MTcuMzM1ODk4LCJuYmYiOjE3MzUyMDA3MTcuMzM1OTAyLCJleHAiOjE3MzUyMzMxMTcuMzI4OTc4LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.c7FEz-Pet3AUbObZkbp97IZ3_GdxkX1PKLrg-ms_HBCP35t5aaUUYqZ2V8ag8r3zRawdWedPnmmCYbdBX_cNTgMKDoqVGMW1ozDJcrPOOmv1iPLv9-ZA11BuHDepq7avkNvjs0mfPf1nPCp68scTl-H7KksYGaeqC_jQf1PEHaYvdR_ruL8CPtHWQDoHEIfPCk1Lc9MgXlR57Y0Me86x7930FQFxA7sfIeNz-OrPcqcsaA_Egtbjm07dBsg_WpRZmHUWB9JzL-vXJNXoG_rNLs6jXP4bTDKhY0_bqCEdTsVQOpDIajwJjJt_NQdLCarCEulHq_Ma2htPBDXKmpE1UsDyeaiPPNzqMrxqpoRzJ__ZqDIHXElTuopwg6T--tihE-WA_PdE-u-ROZ1VhLKcUowEvYkhvx2TonZlOKkSGIWDFvpmmXVTYBJaRvUHWj-jJfEFTniYH1EYnHY6yxpnIxRDTP41ip7WRxtj2wyBAsj6AvdamAxzoXwIoK-qB_CygRuGbUN9_utpyZ4Hk9K7tGw0IO491_ViJjUtfGFs5s4k1nyHWMjvrFMgdI-HZANNeW6_jy7TJbrHPpn5-WxBFzqiJqN5GlKTtwRYlnPk6h9mPX8kJ00vorFYS0p6WmwQyFNnus66XHQErUbnQMUs4k9t218DcyUTHKFhQA0lfD8\",  \n\"refresh_token\": \"682fd682ab934df8256974a63db47a77e77c4d6fad25ab709ed155cfd1de42ad5b42ecfe3b35f6c7\",  \n\"expires_in_sec\": -32399.654871,  \n\"user\": {  \n\"id\": 1,  \n\"role_id\": 1,  \n\"role\": \"Admin\",  \n\"first_name\": \"Info\",  \n\"last_name\": \"G3\",  \n\"profile_image_url\": \"[http://127.0.0.1:8050/storage/profile_images/YufY2oQbNh03f1dvinC9lHhfwmnxJ2svPy85xsZ0.jpg\"](http://127.0.0.1:8050/storage/profile_images/YufY2oQbNh03f1dvinC9lHhfwmnxJ2svPy85xsZ0.jpg)  \n}  \n}\n\n---\n\n**3\\. VALIDATIONS:**\n\nBlank submission\n\n{  \n\"message\": \"This field is required. (and 1 more error)\",  \n\"errors\": {  \n\"email\": \\[  \n\"This field is required.\"  \n\\],  \n\"password\": \\[  \n\"This field is required.\"  \n\\]  \n}  \n}\n\n---\n\n**4\\. FAILURE:**\n\n{  \n\"status\": false,  \n\"message\": \"The login credentials are incorrect.\"  \n}\n\n---\n\n**5\\. OTHER EXCEPTION:**\n\n{  \n\"status\": false,  \n\"message\": \"Something went wrong.\"  \n}"
+			},
+			"response": []
+		},
+		{
+			"name": "personnel-details-list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://beechem.ishtech.live/api/personnel-details",
+					"protocol": "https",
+					"host": [
+						"beechem",
+						"ishtech",
+						"live"
+					],
+					"path": [
+						"api",
+						"personnel-details"
+					]
+				},
+				"description": "This endpoint is for API personnel-details-list\n\n**1\\. URL-PARAMETERS:**\n\nurl: /apiaries?user_id=1\n\nuser_id: optional, integer\n\n---\n\n**2\\. PARAMETERS:**\n\n---\n\n**3\\. RESPONSE:**\n\n{  \n\"status\": true,  \n\"data\": \\[  \n{  \n\"id\": 1,  \n\"first_name\": \"James Warrior\",  \n\"last_name\": null,  \n\"address\": \"Sydney\",  \n\"latitude\": \"45.56.56.0\",  \n\"longitude\": \"55.54.32.56\",  \n\"suburb\": \"golden city\",  \n\"state\": \"Queensland\",  \n\"postcode\": \"676\",  \n\"country\": \"Australia\",  \n\"contact_number\": \"1700 654 654\",  \n\"status\": 1,  \n\"role_id\": 2,  \n\"created_by\": 3,  \n\"updated_by\": null,  \n\"role\": {  \n\"id\": 2,  \n\"role\": \"Colony Owner\",  \n\"status\": 1,  \n\"default\": 1,  \n\"created_by\": null  \n}  \n}  \n\\]  \n}\n\nNo-Data:\n\n{  \n\"status\": true,  \n\"data\": \\[\\]  \n}\n\n---\n\n**4\\. VALIDATIONS:**\n\n---\n\n**5\\. FAILURE:**\n\n---\n\n**6\\. OTHER EXCEPTION:**\n\n{  \n\"status\": false,  \n\"message\": \"Something went wrong.\"  \n}"
+			},
+			"response": []
+		},
+		{
+			"name": "inspector-drop-down",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://beechem.ishtech.live/api/personnel-details/3/dropdown",
+					"protocol": "https",
+					"host": [
+						"beechem",
+						"ishtech",
+						"live"
+					],
+					"path": [
+						"api",
+						"personnel-details",
+						"3",
+						"dropdown"
+					]
+				},
+				"description": "This endpoint is for API inspector-drop-down\n\n**1\\. URL-PARAMETERS:**\n\nurl: /personnel-details/{id}/dropdown\n\nid: optional, integer, 0- new, id - update\n\n---\n\n**2\\. PARAMETERS:**\n\n---\n\n**3\\. RESPONSE:**\n\n\\[  \n{  \n\"id\": 1,  \n\"first_name\": \"James Warrior\"  \n},  \n{  \n\"id\": 3,  \n\"first_name\": \"Rooney\"  \n}  \n\\]\n\nNo-Data:\n\n\\[\\]\n\n---\n\n**4\\. VALIDATIONS:**\n\n---\n\n**5\\. FAILURE:**\n\n---\n\n**6\\. OTHER EXCEPTION:**\n\n{  \n\"status\": false,  \n\"message\": \"Something went wrong.\"  \n}"
+			},
+			"response": []
+		},
+		{
+			"name": "personnel-detail-show",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://beechem.ishtech.live/api/personnel-details/25",
+					"protocol": "https",
+					"host": [
+						"beechem",
+						"ishtech",
+						"live"
+					],
+					"path": [
+						"api",
+						"personnel-details",
+						"25"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				},
+				"description": "This endpoint is for API personnel-detail-show\n\n**1\\. URL-PARAMETERS:**\n\nurl: /personnel-details/{id}\n\nid: required, integer\n\n---\n\n**2\\. PARAMETERS:**\n\n---\n\n**3\\. RESPONSE:**\n\n{  \n\"status\": true,  \n\"data\": {  \n\"id\": 1,  \n\"first_name\": \"James Warrior\",  \n\"last_name\": null,  \n\"address\": \"Sydney\",  \n\"latitude\": \"45.56.56.0\",  \n\"longitude\": \"55.54.32.56\",  \n\"suburb\": \"golden city\",  \n\"state\": \"Queensland\",  \n\"postcode\": \"676\",  \n\"country\": \"Australia\",  \n\"contact_number\": \"1700 654 654\",  \n\"status\": 1,  \n\"role_id\": 2,  \n\"created_by\": 3,  \n\"updated_by\": null  \n}  \n}\n\nNo-Data:\n\n{  \n\"status\": true,  \n\"data\": null  \n}\n\n---\n\n**4\\. VALIDATIONS:**\n\n---\n\n**5\\. FAILURE:**\n\n{  \n\"status\": false,  \n\"message\": \"Invalid id.\"  \n}\n\n---\n\n**6\\. OTHER EXCEPTION:**\n\n{  \n\"status\": false,  \n\"message\": \"Something went wrong.\"  \n}"
+			},
+			"response": []
+		},
+		{
+			"name": "personnel-details-add",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "first_name",
+							"value": "Varghese Palaikkal",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Sydney",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "45.56.56.0",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "55.54.32.56",
+							"type": "text"
+						},
+						{
+							"key": "suburb",
+							"value": "golden city",
+							"type": "text"
+						},
+						{
+							"key": "state",
+							"value": "Queensland",
+							"type": "text"
+						},
+						{
+							"key": "postcode",
+							"value": "676",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "Australia",
+							"type": "text"
+						},
+						{
+							"key": "contact_number",
+							"value": "1700 654 654",
+							"type": "text"
+						},
+						{
+							"key": "role_ids",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://beechem.ishtech.live/api/personnel-details/add",
+					"protocol": "https",
+					"host": [
+						"beechem",
+						"ishtech",
+						"live"
+					],
+					"path": [
+						"api",
+						"personnel-details",
+						"add"
+					]
+				},
+				"description": "This endpoint is for API add personnel details.\n\n**1\\. PARAMETERS**\n\n**Body**\n\nfirst_name: string, required  \naddress: string  \nlatitude: string  \nlongitude: string  \nsuburb: string  \nstate: string  \npostcode: string  \ncountry: string\n\ncontact_number: integer\n\nrole_id: integer, where role_id is id of role\n\nstatus: integer, (1-active, 0-inactive)\n\n---\n\n**2\\. VALIDATION**\n\n**Required**\n\n{  \n\"message\": \"This field is required.\",  \n\"errors\": {  \n\"first_name\": \\[  \n\"This field is required.\"  \n\\]  \n}  \n}\n\n---\n\n**3\\. RESPONSE**\n\n**Success**\n\n{  \n\"status\": true,  \n\"message\": \"Details saved sucecssfully.\"  \n}\n\n**Failure**\n\n{  \n\"status\": false,  \n\"message\": \"Something went wrong.\"  \n}"
+			},
+			"response": []
+		},
+		{
+			"name": "personnel-details-update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "first_name",
+							"value": "James Warrior",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Sydney update",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "45.56.56.0",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "55.54.32.56",
+							"type": "text"
+						},
+						{
+							"key": "suburb",
+							"value": "golden city",
+							"type": "text"
+						},
+						{
+							"key": "state",
+							"value": "Queensland",
+							"type": "text"
+						},
+						{
+							"key": "postcode",
+							"value": "676",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "Australia",
+							"type": "text"
+						},
+						{
+							"key": "contact_number",
+							"value": "1700 654 654",
+							"type": "text"
+						},
+						{
+							"key": "role_id",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://beechem.ishtech.live/api/personnel-details/1",
+					"protocol": "https",
+					"host": [
+						"beechem",
+						"ishtech",
+						"live"
+					],
+					"path": [
+						"api",
+						"personnel-details",
+						"1"
+					]
+				},
+				"description": "This endpoint is for API update personnel details.\n\n**1\\. PARAMETERS**\n\n**Url**\n\nid: integer, where id is personnel details id\n\n**Body**\n\nfirst_name: string, required  \naddress: string  \nlatitude: string  \nlongitude: string  \nsuburb: string  \nstate: string  \npostcode: string  \ncountry: string\n\ncontact_number: integer\n\nrole_id: integer, where role_id is id of role\n\nstatus: integer, (1-active, 0-inactive)\n\n---\n\n**2\\. VALIDATION**\n\n**Required**\n\n{  \n\"message\": \"This field is required.\",  \n\"errors\": {  \n\"first_name\": \\[  \n\"This field is required.\"  \n\\]  \n}  \n}\n\n---\n\n**3\\. RESPONSE**\n\n**Success**\n\n{  \n\"status\": true,  \n\"data\": {  \n\"id\": 1,  \n\"first_name\": \"James Warriorr\",  \n\"last_name\": null,  \n\"address\": \"Sydneyy\",  \n\"latitude\": \"45.56.56.0\",  \n\"longitude\": \"55.54.32.56\",  \n\"suburb\": \"golden city\",  \n\"state\": \"Queensland\",  \n\"postcode\": \"676\",  \n\"country\": \"Australia\",  \n\"contact_number\": \"1700 654 654\",  \n\"status\": \"0\",  \n\"role_id\": \"3\",  \n\"created_by\": 1,  \n\"updated_by\": 1  \n},  \n\"message\": \"Details saved successfully.\"  \n}\n\n**Failure**\n\n{  \n\"status\": false,  \n\"message\": \"Invalid id.\"  \n}\n\n{  \n\"status\": false,  \n\"message\": \"Something went wrong.\"  \n}"
+			},
+			"response": []
+		},
+		{
+			"name": "personnel-details-status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://beechem.ishtech.live/api/personnel-details/1/status",
+					"protocol": "https",
+					"host": [
+						"beechem",
+						"ishtech",
+						"live"
+					],
+					"path": [
+						"api",
+						"personnel-details",
+						"1",
+						"status"
+					]
+				},
+				"description": "This endpoint is for API change status of personnel details.\n\n**1\\. PARAMETERS**\n\n**Url**\n\nid: integer, where id is personnel details id\n\n---\n\n**2\\. RESPONSE**\n\n**Success**\n\n{  \n\"status\": true,  \n\"data\": {  \n\"id\": 1,  \n\"first_name\": \"James Warriorr\",  \n\"last_name\": null,  \n\"address\": \"Sydney\",  \n\"latitude\": \"45.56.56.0\",  \n\"longitude\": \"55.54.32.56\",  \n\"suburb\": \"golden city\",  \n\"state\": \"Queensland\",  \n\"postcode\": \"676\",  \n\"country\": \"Australia\",  \n\"contact_number\": \"1700 654 654\",  \n\"status\": 0,  \n\"role_id\": 2,  \n\"created_by\": 1,  \n\"updated_by\": 1  \n},  \n\"message\": \"Status changed successfully.\"  \n}\n\n---\n\n**3\\. Failure**\n\n{  \n\"status\": false,  \n\"message\": \"Invalid id.\"  \n}\n\n{  \n\"status\": false,  \n\"message\": \"Something went wrong.\"  \n}"
+			},
+			"response": []
+		},
+		{
+			"name": "apiary-roles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://beechem.ishtech.live/api/roles/apiary-roles",
+					"protocol": "https",
+					"host": [
+						"beechem",
+						"ishtech",
+						"live"
+					],
+					"path": [
+						"api",
+						"roles",
+						"apiary-roles"
+					]
+				},
+				"description": "This endpoint for api roles dropdown\n\n**PARAMETERS**\n\n**Url**\n\nid: integer, where id is roles id, 0-add\n\n**RESPONSE**\n\n\\[  \n{  \n\"id\": 1,  \n\"role\": \"Admin\",  \n\"status\": 1,  \n\"default\": 1,  \n\"created_by\": null  \n},  \n{  \n\"id\": 2,  \n\"role\": \"Colony Owner\",  \n\"status\": 0,  \n\"default\": 1,  \n\"created_by\": null  \n},  \n{  \n\"id\": 3,  \n\"role\": \"Chem Applicator\",  \n\"status\": 1,  \n\"default\": 1,  \n\"created_by\": null  \n}  \n\\]\n\n**FAILURE**\n\n{  \n\"status\": false,  \n\"message\": \"Something went wrong.\"  \n}"
+			},
+			"response": []
+		}
+	]
+}
