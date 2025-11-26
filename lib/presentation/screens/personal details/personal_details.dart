@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_machine_task/presentation/widgets/shimmer_loading.dart';
 
 import '../../../data/models/personnel_model.dart';
 import '../../../data/repository/personnel_repository.dart';
@@ -8,6 +9,7 @@ import '../add_personal details/personal_details_page.dart';
 import 'widget/header_widget.dart';
 import 'widget/personnal_card.dart';
 import 'widget/searchbar_go_button.dart';
+ 
 
 class PersonnelListScreen extends StatelessWidget {
   const PersonnelListScreen({super.key});
@@ -74,23 +76,30 @@ class _PersonnelListView extends StatelessWidget {
                 switch (state.status) {
                   case PersonnelListStatus.loading:
                   case PersonnelListStatus.initial:
-                    return const Center(child: CircularProgressIndicator());
+                    return ListView.builder(
+                      padding: const EdgeInsets.only(top: 16),
+                      itemCount: 6,
+                      itemBuilder: (_, __) =>
+                          const ShimmerPersonnelPlaceholder(),
+                    );
+
                   case PersonnelListStatus.failure:
                     return _ErrorView(
-                      message:
-                          state.errorMessage ??
+                      message: state.errorMessage ??
                           'Unable to load personnel. Please try again.',
                       onRetry: () {
                         context.read<PersonnelListBloc>().add(
-                          const PersonnelListRequested(),
-                        );
+                              const PersonnelListRequested(),
+                            );
                       },
                     );
+
                   case PersonnelListStatus.empty:
                     final description = state.hasSearchQuery
                         ? 'No personnel matched "${state.searchQuery}".'
                         : 'No personnel found.';
                     return _EmptyView(description: description);
+
                   case PersonnelListStatus.success:
                     return _PersonnelList(personnel: state.filteredPersonnel);
                 }
@@ -113,8 +122,8 @@ class _PersonnelList extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         context.read<PersonnelListBloc>().add(
-          const PersonnelListRefreshRequested(),
-        );
+              const PersonnelListRefreshRequested(),
+            );
       },
       child: ListView.separated(
         physics: const AlwaysScrollableScrollPhysics(),
