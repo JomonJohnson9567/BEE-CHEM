@@ -89,7 +89,7 @@ class LogoutDialog extends StatelessWidget {
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
-                      color: AppColors.logoutTitleColor,
+                      color: AppColors.logoutButtonText,
                     ),
                   ),
                   const SizedBox(height: 12),

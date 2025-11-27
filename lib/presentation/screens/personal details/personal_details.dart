@@ -9,7 +9,6 @@ import '../add_personal details/personal_details_page.dart';
 import 'widget/header_widget.dart';
 import 'widget/personnal_card.dart';
 import 'widget/searchbar_go_button.dart';
- 
 
 class PersonnelListScreen extends StatelessWidget {
   const PersonnelListScreen({super.key});
@@ -85,12 +84,13 @@ class _PersonnelListView extends StatelessWidget {
 
                   case PersonnelListStatus.failure:
                     return _ErrorView(
-                      message: state.errorMessage ??
+                      message:
+                          state.errorMessage ??
                           'Unable to load personnel. Please try again.',
                       onRetry: () {
                         context.read<PersonnelListBloc>().add(
-                              const PersonnelListRequested(),
-                            );
+                          const PersonnelListRequested(),
+                        );
                       },
                     );
 
@@ -122,8 +122,8 @@ class _PersonnelList extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         context.read<PersonnelListBloc>().add(
-              const PersonnelListRefreshRequested(),
-            );
+          const PersonnelListRefreshRequested(),
+        );
       },
       child: ListView.separated(
         physics: const AlwaysScrollableScrollPhysics(),

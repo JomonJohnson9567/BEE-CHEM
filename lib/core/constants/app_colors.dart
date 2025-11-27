@@ -58,19 +58,19 @@ class AppColors {
   static const Color loadingIndicatorSecondary = Colors.white;
 
   // Logout Dialog Colors
-  static Color logoutIconGradientStart = Colors.red.shade400;
-  static Color logoutIconGradientEnd = Colors.red.shade600;
-  static const Color logoutIconColor = Colors.white;
+  static Color logoutIconGradientStart = Color(0xFFF4D03F);
+  static Color logoutIconGradientEnd = Color(0xFFF4D03F);
+  static const Color logoutIconColor = Colors.black;
   static const Color logoutTitleColor = Colors.black;
   static Color logoutContentColor = Colors.grey.shade600;
   static Color logoutCancelBorderColor = Colors.grey.shade400;
   static Color logoutCancelBorderColorDisabled = Colors.grey.shade300;
   static Color logoutCancelTextColor = Colors.grey.shade700;
   static Color logoutCancelTextColorDisabled = Colors.grey.shade400;
-  static Color logoutButtonBackground = Colors.red.shade600;
-  static Color logoutButtonBackgroundDisabled = Colors.red.shade300;
-  static const Color logoutButtonText = Colors.white;
-  static Color logoutSnackbarBackground = Colors.red.shade600;
+  static Color logoutButtonBackground = Color(0xFFF4D03F);
+  static Color logoutButtonBackgroundDisabled = Color(0xFFF4D03F);
+  static const Color logoutButtonText = Colors.black;
+  static Color logoutSnackbarBackground = Color(0xFFF4D03F);
   static const Color logoutDialogBackground = Colors.white;
-  static Color logoutButtonShadow = Colors.red.withOpacity(0.4);
+  static Color logoutButtonShadow = Color(0xFFF4D03F).withOpacity(0.4);
 }

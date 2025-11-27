@@ -17,7 +17,13 @@ class ApiService {
       final uri = _buildUri(endpoint);
       final headers = await _buildHeaders();
 
+      print('[ApiService.get] Making request to: $uri');
+      print('[ApiService.get] Headers: $headers');
+
       final response = await _client.get(uri, headers: headers);
+
+      print('[ApiService.get] Response status: ${response.statusCode}');
+
       return _handleResponse(response);
     } on SocketException {
       throw ApiException(
@@ -72,9 +78,20 @@ class ApiService {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(_tokenKey);
     final headers = <String, String>{'Accept': 'application/json'};
+
+    print(
+      '[ApiService] Token from SharedPreferences: ${token?.isNotEmpty == true ? 'Present (${token!.length} chars)' : 'NOT FOUND'}',
+    );
+
     if (token != null && token.isNotEmpty) {
       headers['Authorization'] = 'Bearer $token';
+      print('[ApiService] Authorization header added');
+    } else {
+      print(
+        '[ApiService] WARNING: No token found! User may need to login again.',
+      );
     }
+
     return headers;
   }
 

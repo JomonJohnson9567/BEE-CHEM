@@ -25,6 +25,9 @@ class AuthRepository {
       body: request.toFormData(),
     );
 
+    print('[AuthRepository] Login response status: ${response.statusCode}');
+    print('[AuthRepository] Login response body: ${response.body}');
+
     if (response.statusCode != 200) {
       throw AuthException('Unable to reach login service.');
     }
@@ -32,18 +35,27 @@ class AuthRepository {
     final decoded = jsonDecode(response.body) as Map<String, dynamic>;
     final loginResponse = LoginResponse.fromJson(decoded);
 
+    print('[AuthRepository] Login status: ${loginResponse.status}');
+    print(
+      '[AuthRepository] Access token present: ${loginResponse.accessToken?.isNotEmpty == true}',
+    );
+
     if (!loginResponse.status || (loginResponse.accessToken?.isEmpty ?? true)) {
       throw AuthException(
         loginResponse.message ?? 'The login credentials are incorrect.',
       );
     }
 
+    print('[AuthRepository] Login successful, token will be persisted');
     return loginResponse;
   }
 
   Future<void> persistToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_tokenKey, token);
+    print(
+      '[AuthRepository] Token persisted to SharedPreferences (${token.length} chars)',
+    );
   }
 
   Future<void> persistCurrentUserEmail(String email) async {
