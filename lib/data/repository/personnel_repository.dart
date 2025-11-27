@@ -13,6 +13,8 @@ class PersonnelRepository {
     try {
       final response = await _apiService.get('/personnel-details');
 
+      print('[PersonnelRepository] fetchPersonnel response: $response');
+
       if (response is Map<String, dynamic>) {
         final status = response['status'];
         if (status is bool && !status) {
@@ -21,6 +23,9 @@ class PersonnelRepository {
           );
         }
         final data = response['data'];
+        if (data == null) {
+          return [];
+        }
         if (data is List) {
           return data
               .whereType<Map<String, dynamic>>()
@@ -37,7 +42,7 @@ class PersonnelRepository {
             .toList();
       }
 
-      throw ApiException('Unexpected response format while loading personnel.');
+      throw ApiException('Unexpected response format: $response');
     } catch (e) {
       if (e is ApiException) {
         rethrow;

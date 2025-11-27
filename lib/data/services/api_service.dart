@@ -23,6 +23,7 @@ class ApiService {
       final response = await _client.get(uri, headers: headers);
 
       print('[ApiService.get] Response status: ${response.statusCode}');
+      print('[ApiService.get] Response body: ${response.body}');
 
       return _handleResponse(response);
     } on SocketException {

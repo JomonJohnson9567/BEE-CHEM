@@ -12,7 +12,7 @@ class RoleModel {
         : ((statusValue is num) ? statusValue == 1 : false);
 
     return RoleModel(
-      id: json['id'] as int,
+      id: int.tryParse(json['id'].toString()) ?? 0,
       name: (json['role'] ?? json['name'] ?? '').toString(),
       isActive: isActive,
     );

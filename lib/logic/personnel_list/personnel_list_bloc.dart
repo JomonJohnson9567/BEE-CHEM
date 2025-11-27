@@ -76,13 +76,16 @@ class PersonnelListBloc extends Bloc<PersonnelListEvent, PersonnelListState> {
         ),
       );
     } on ApiException catch (error) {
+      print('[PersonnelListBloc] ApiException: ${error.message}');
       emit(
         state.copyWith(
           status: PersonnelListStatus.failure,
           errorMessage: error.message,
         ),
       );
-    } catch (_) {
+    } catch (e, stackTrace) {
+      print('[PersonnelListBloc] Unexpected error: $e');
+      print(stackTrace);
       emit(
         state.copyWith(
           status: PersonnelListStatus.failure,

@@ -26,7 +26,7 @@ class PersonnelModel {
 
   factory PersonnelModel.fromJson(Map<String, dynamic> json) {
     return PersonnelModel(
-      id: json['id'] as int,
+      id: int.tryParse(json['id'].toString()) ?? 0,
       firstName: _stringValue(json['first_name']),
       lastName: _stringValue(json['last_name']),
       address: _stringValue(json['address']),
@@ -39,8 +39,8 @@ class PersonnelModel {
       longitude: _stringValue(json['longitude']),
       status: json['status'] is bool
           ? ((json['status'] as bool) ? 1 : 0)
-          : (json['status'] ?? 0) as int,
-      roleId: json['role_id'] as int?,
+          : (int.tryParse(json['status'].toString()) ?? 0),
+      roleId: int.tryParse(json['role_id'].toString()),
       role: json['role'] is Map<String, dynamic>
           ? RoleModel.fromJson(json['role'] as Map<String, dynamic>)
           : null,
