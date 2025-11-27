@@ -59,21 +59,8 @@ class _AddPersonnelViewState extends State<_AddPersonnelView> {
 
   void _submit() {
     final isFormValid = _formKey.currentState?.validate() ?? false;
-    final state = context.read<AddPersonnelBloc>().state;
 
     if (!isFormValid) {
-      return;
-    }
-
-    if (state.selectedRoleIds.isEmpty) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          const SnackBar(
-            content: Text('Please select at least one role'),
-            backgroundColor: AppColors.snackbarError,
-          ),
-        );
       return;
     }
 
@@ -105,402 +92,420 @@ class _AddPersonnelViewState extends State<_AddPersonnelView> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.pageBackground,
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 24),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const HeaderSection(),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                    controller: _controllers['fullName']!,
-                    label: 'Full name',
-                    onChanged: (value) => context.read<AddPersonnelBloc>().add(
-                      AddPersonnelFullNameChanged(value),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Full name is required';
-                      }
-                      if (value.trim().length < 2) {
-                        return 'Full name must be at least 2 characters';
-                      }
-                      if (value.trim().length > 100) {
-                        return 'Full name must be less than 100 characters';
-                      }
-                      if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value.trim())) {
-                        return 'Full name should only contain letters and spaces';
-                      }
-                      return null;
-                    },
-                  ),
-                  _buildTextField(
-                    controller: _controllers['address']!,
-                    label: 'Address',
-                    hint: 'Please type',
-                    prefixIcon: Icons.location_on_outlined,
-                    onChanged: (value) => context.read<AddPersonnelBloc>().add(
-                      AddPersonnelAddressChanged(value),
-                    ),
-                    validator: (value) =>
-                        (value == null || value.trim().isEmpty)
-                        ? 'Address is required'
-                        : null,
-                  ),
-                  _buildTextField(
-                    controller: _controllers['suburb']!,
-                    label: 'Suburb',
-                    onChanged: (value) => context.read<AddPersonnelBloc>().add(
-                      AddPersonnelSuburbChanged(value),
-                    ),
-                    validator: (value) =>
-                        (value == null || value.trim().isEmpty)
-                        ? 'Suburb is required'
-                        : null,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 6,
-                    ),
-                    child: Row(
+          body: Column(
+            children: [
+              const HeaderSection(),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: _buildTextField(
-                            controller: _controllers['state']!,
-                            label: 'State',
-                            compact: true,
-                            onChanged: (value) => context
-                                .read<AddPersonnelBloc>()
-                                .add(AddPersonnelStateChanged(value)),
-                            validator: (value) =>
-                                (value == null || value.trim().isEmpty)
-                                ? 'State is required'
-                                : null,
-                          ),
+                        const SizedBox(height: 20),
+                        _buildTextField(
+                          controller: _controllers['fullName']!,
+                          label: 'Full name',
+                          onChanged: (value) => context
+                              .read<AddPersonnelBloc>()
+                              .add(AddPersonnelFullNameChanged(value)),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Full name is required';
+                            }
+                            if (value.trim().length < 2) {
+                              return 'Full name must be at least 2 characters';
+                            }
+                            if (value.trim().length > 100) {
+                              return 'Full name must be less than 100 characters';
+                            }
+                            if (!RegExp(
+                              r'^[a-zA-Z\s]+$',
+                            ).hasMatch(value.trim())) {
+                              return 'Full name should only contain letters and spaces';
+                            }
+                            return null;
+                          },
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildTextField(
-                            controller: _controllers['postcode']!,
-                            label: 'Postcode',
-                            compact: true,
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) => context
-                                .read<AddPersonnelBloc>()
-                                .add(AddPersonnelPostcodeChanged(value)),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return 'Postcode is required';
-                              }
-                              if (!RegExp(
-                                r'^\d{4,6}$',
-                              ).hasMatch(value.trim())) {
-                                return 'Enter valid postcode (4-6 digits)';
-                              }
-                              return null;
-                            },
-                          ),
+                        _buildTextField(
+                          controller: _controllers['address']!,
+                          label: 'Address',
+                          hint: 'Please type',
+                          prefixIcon: Icons.location_on_outlined,
+                          onChanged: (value) => context
+                              .read<AddPersonnelBloc>()
+                              .add(AddPersonnelAddressChanged(value)),
+                          validator: (value) =>
+                              (value == null || value.trim().isEmpty)
+                              ? 'Address is required'
+                              : null,
                         ),
-                      ],
-                    ),
-                  ),
-                  _buildTextField(
-                    controller: _controllers['country']!,
-                    label: 'Country',
-                    onChanged: (value) => context.read<AddPersonnelBloc>().add(
-                      AddPersonnelCountryChanged(value),
-                    ),
-                    validator: (value) =>
-                        (value == null || value.trim().isEmpty)
-                        ? 'Country is required'
-                        : null,
-                  ),
-                  _buildTextField(
-                    controller: _controllers['contact']!,
-                    label: 'Contact number',
-                    keyboardType: TextInputType.phone,
-                    onChanged: (value) => context.read<AddPersonnelBloc>().add(
-                      AddPersonnelContactNumberChanged(value),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Contact number is required';
-                      }
-                      // Remove all non-digit characters for validation
-                      final digitsOnly = value.replaceAll(RegExp(r'[^\d]'), '');
-                      if (digitsOnly.length < 10 || digitsOnly.length > 15) {
-                        return 'Enter valid contact number (10-15 digits)';
-                      }
-                      return null;
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 6,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: _buildTextField(
-                            controller: _controllers['latitude']!,
-                            label: 'Latitude',
-                            compact: true,
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
-                              signed: true,
-                            ),
-                            onChanged: (value) => context
-                                .read<AddPersonnelBloc>()
-                                .add(AddPersonnelLatitudeChanged(value)),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return 'Latitude is required';
-                              }
-                              final lat = double.tryParse(value.trim());
-                              if (lat == null) {
-                                return 'Enter valid latitude';
-                              }
-                              if (lat < -90 || lat > 90) {
-                                return 'Latitude must be between -90 and 90';
-                              }
-                              return null;
-                            },
-                          ),
+                        _buildTextField(
+                          controller: _controllers['suburb']!,
+                          label: 'Suburb',
+                          onChanged: (value) => context
+                              .read<AddPersonnelBloc>()
+                              .add(AddPersonnelSuburbChanged(value)),
+                          validator: (value) =>
+                              (value == null || value.trim().isEmpty)
+                              ? 'Suburb is required'
+                              : null,
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildTextField(
-                            controller: _controllers['longitude']!,
-                            label: 'Longitude',
-                            compact: true,
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
-                              signed: true,
-                            ),
-                            onChanged: (value) => context
-                                .read<AddPersonnelBloc>()
-                                .add(AddPersonnelLongitudeChanged(value)),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return 'Longitude is required';
-                              }
-                              final lng = double.tryParse(value.trim());
-                              if (lng == null) {
-                                return 'Enter valid longitude';
-                              }
-                              if (lng < -180 || lng > 180) {
-                                return 'Longitude must be between -180 and 180';
-                              }
-                              return null;
-                            },
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 6,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-                    child: Text(
-                      'Roles',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppColors.cardBackground,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: state.isLoadingRoles
-                          ? const SizedBox(
-                              height: 56,
-                              child: Center(child: CircularProgressIndicator()),
-                            )
-                          : state.rolesError != null
-                          ? _RolesError(
-                              message: state.rolesError!,
-                              onRetry: () => context
-                                  .read<AddPersonnelBloc>()
-                                  .add(const AddPersonnelRolesRetried()),
-                            )
-                          : state.roles.isEmpty
-                          ? const Text(
-                              'No roles available',
-                              style: TextStyle(color: AppColors.textSecondary),
-                            )
-                          : Column(
-                              children: state.roles.map((role) {
-                                final isSelected = state.selectedRoleIds
-                                    .contains(role.id);
-                                return CheckboxListTile(
-                                  title: Text(role.name),
-                                  value: isSelected,
-                                  onChanged: (value) {
-                                    context.read<AddPersonnelBloc>().add(
-                                      AddPersonnelRoleToggled(
-                                        role.id,
-                                        value ?? false,
-                                      ),
-                                    );
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: _buildTextField(
+                                  controller: _controllers['state']!,
+                                  label: 'State',
+                                  compact: true,
+                                  onChanged: (value) => context
+                                      .read<AddPersonnelBloc>()
+                                      .add(AddPersonnelStateChanged(value)),
+                                  validator: (value) =>
+                                      (value == null || value.trim().isEmpty)
+                                      ? 'State is required'
+                                      : null,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _buildTextField(
+                                  controller: _controllers['postcode']!,
+                                  label: 'Postcode',
+                                  compact: true,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (value) => context
+                                      .read<AddPersonnelBloc>()
+                                      .add(AddPersonnelPostcodeChanged(value)),
+                                  validator: (value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'Postcode is required';
+                                    }
+                                    if (!RegExp(
+                                      r'^\d{4,6}$',
+                                    ).hasMatch(value.trim())) {
+                                      return 'Enter valid postcode (4-6 digits)';
+                                    }
+                                    return null;
                                   },
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  contentPadding: EdgeInsets.zero,
-                                );
-                              }).toList(),
-                            ),
-                    ),
-                  ),
-                  // Roles validation error display
-                  if (state.selectedRoleIds.isEmpty &&
-                      state.submissionError != null)
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 8,
-                      ),
-                      child: Text(
-                        'Please select at least one role',
-                        style: TextStyle(
-                          color: AppColors.textError,
-                          fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                    controller: _controllers['additionalNotes']!,
-                    label: 'Additional Notes',
-                    hint: 'Enter any additional notes...',
-                    onChanged: (value) => context.read<AddPersonnelBloc>().add(
-                      AddPersonnelAdditionalNotesChanged(value),
-                    ),
-                    validator: (value) {
-                      if (value != null && value.trim().length > 500) {
-                        return 'Additional notes must be less than 500 characters';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 14,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.cardBackground,
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Status',
+                        _buildTextField(
+                          controller: _controllers['country']!,
+                          label: 'Country',
+                          onChanged: (value) => context
+                              .read<AddPersonnelBloc>()
+                              .add(AddPersonnelCountryChanged(value)),
+                          validator: (value) =>
+                              (value == null || value.trim().isEmpty)
+                              ? 'Country is required'
+                              : null,
+                        ),
+                        _buildTextField(
+                          controller: _controllers['contact']!,
+                          label: 'Contact number',
+                          keyboardType: TextInputType.phone,
+                          onChanged: (value) => context
+                              .read<AddPersonnelBloc>()
+                              .add(AddPersonnelContactNumberChanged(value)),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Contact number is required';
+                            }
+                            // Remove all non-digit characters for validation
+                            final digitsOnly = value.replaceAll(
+                              RegExp(r'[^\d]'),
+                              '',
+                            );
+                            if (digitsOnly.length < 10 ||
+                                digitsOnly.length > 15) {
+                              return 'Enter valid contact number (10-15 digits)';
+                            }
+                            return null;
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 6,
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: _buildTextField(
+                                  controller: _controllers['latitude']!,
+                                  label: 'Latitude',
+                                  compact: true,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                        signed: true,
+                                      ),
+                                  onChanged: (value) => context
+                                      .read<AddPersonnelBloc>()
+                                      .add(AddPersonnelLatitudeChanged(value)),
+                                  validator: (value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'Latitude is required';
+                                    }
+                                    final lat = double.tryParse(value.trim());
+                                    if (lat == null) {
+                                      return 'Enter valid latitude';
+                                    }
+                                    if (lat < -90 || lat > 90) {
+                                      return 'Latitude must be between -90 and 90';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _buildTextField(
+                                  controller: _controllers['longitude']!,
+                                  label: 'Longitude',
+                                  compact: true,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                        signed: true,
+                                      ),
+                                  onChanged: (value) => context
+                                      .read<AddPersonnelBloc>()
+                                      .add(AddPersonnelLongitudeChanged(value)),
+                                  validator: (value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'Longitude is required';
+                                    }
+                                    final lng = double.tryParse(value.trim());
+                                    if (lng == null) {
+                                      return 'Enter valid longitude';
+                                    }
+                                    if (lng < -180 || lng > 180) {
+                                      return 'Longitude must be between -180 and 180';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 4,
+                          ),
+                          child: Text(
+                            'Roles',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          Switch(
-                            value: state.isActive,
-                            onChanged: (value) => context
-                                .read<AddPersonnelBloc>()
-                                .add(AddPersonnelStatusToggled(value)),
-                            thumbColor: WidgetStatePropertyAll<Color>(
-                              AppColors.switchThumb,
-                            ),
-                            trackColor: WidgetStateProperty.resolveWith((
-                              states,
-                            ) {
-                              if (states.contains(WidgetState.selected)) {
-                                return AppColors.switchActive;
-                              }
-                              return AppColors.switchInactive;
-                            }),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (state.submissionError != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      child: Text(
-                        state.submissionError!,
-                        style: const TextStyle(color: AppColors.textError),
-                      ),
-                    ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () => Navigator.pop(context),
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: AppColors.cardBackground,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                            ),
-                            child: const Text(
-                              'Cancel',
-                              style: TextStyle(
-                                color: AppColors.buttonSecondary,
-                              ),
-                            ),
-                          ),
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: state.isSubmitting
-                                ? null
-                                : () => _submit(),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              backgroundColor: AppColors.primary,
-                              foregroundColor: AppColors.buttonText,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColors.cardBackground,
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            child: state.isSubmitting
+                            child: state.isLoadingRoles
                                 ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color:
-                                          AppColors.loadingIndicatorSecondary,
+                                    height: 56,
+                                    child: Center(
+                                      child: CircularProgressIndicator(),
                                     ),
                                   )
-                                : const Text('Save'),
+                                : state.rolesError != null
+                                ? _RolesError(
+                                    message: state.rolesError!,
+                                    onRetry: () => context
+                                        .read<AddPersonnelBloc>()
+                                        .add(const AddPersonnelRolesRetried()),
+                                  )
+                                : state.roles.isEmpty
+                                ? const Text(
+                                    'No roles available',
+                                    style: TextStyle(
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  )
+                                : Column(
+                                    children: state.roles.map((role) {
+                                      final isSelected = state.selectedRoleIds
+                                          .contains(role.id);
+                                      return CheckboxListTile(
+                                        title: Text(role.name),
+                                        value: isSelected,
+                                        onChanged: (value) {
+                                          context.read<AddPersonnelBloc>().add(
+                                            AddPersonnelRoleToggled(
+                                              role.id,
+                                              value ?? false,
+                                            ),
+                                          );
+                                        },
+                                        controlAffinity:
+                                            ListTileControlAffinity.leading,
+                                        contentPadding: EdgeInsets.zero,
+                                      );
+                                    }).toList(),
+                                  ),
                           ),
                         ),
+                        // Roles validation error display
+                        if (state.selectedRoleIds.isEmpty &&
+                            state.submissionError != null)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 8,
+                            ),
+                            child: Text(
+                              'Please select at least one role',
+                              style: TextStyle(
+                                color: AppColors.textError,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        const SizedBox(height: 20),
+                        _buildTextField(
+                          controller: _controllers['additionalNotes']!,
+                          label: 'Additional Notes',
+                          hint: 'Enter any additional notes...',
+                          onChanged: (value) => context
+                              .read<AddPersonnelBloc>()
+                              .add(AddPersonnelAdditionalNotesChanged(value)),
+                          validator: (value) {
+                            if (value != null && value.trim().length > 500) {
+                              return 'Additional notes must be less than 500 characters';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 14,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.cardBackground,
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Status',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Switch(
+                                  value: state.isActive,
+                                  onChanged: (value) => context
+                                      .read<AddPersonnelBloc>()
+                                      .add(AddPersonnelStatusToggled(value)),
+                                  thumbColor: WidgetStatePropertyAll<Color>(
+                                    AppColors.switchThumb,
+                                  ),
+                                  trackColor: WidgetStateProperty.resolveWith((
+                                    states,
+                                  ) {
+                                    if (states.contains(WidgetState.selected)) {
+                                      return AppColors.switchActive;
+                                    }
+                                    return AppColors.switchInactive;
+                                  }),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        if (state.submissionError != null)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                            child: Text(
+                              state.submissionError!,
+                              style: const TextStyle(
+                                color: AppColors.textError,
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: AppColors.cardBackground,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                        ),
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(color: AppColors.buttonSecondary),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: state.isSubmitting ? null : () => _submit(),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: AppColors.buttonText,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                        ),
+                        child: state.isSubmitting
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: AppColors.loadingIndicatorSecondary,
+                                ),
+                              )
+                            : const Text('Save'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },
