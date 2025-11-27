@@ -78,6 +78,11 @@ class _SearchBarSectionState extends State<SearchBarSection> {
                             border: InputBorder.none,
                           ),
                           textInputAction: TextInputAction.search,
+                          onChanged: (value) {
+                            context.read<PersonnelListBloc>().add(
+                              PersonnelListSearchChanged(value),
+                            );
+                          },
                           onSubmitted: (_) => _submitSearch(),
                         ),
                       ),

@@ -23,3 +23,12 @@ class PersonnelListSearchSubmitted extends PersonnelListEvent {
   @override
   List<Object?> get props => [query];
 }
+
+class PersonnelListSearchChanged extends PersonnelListEvent {
+  const PersonnelListSearchChanged(this.query);
+
+  final String query;
+
+  @override
+  List<Object?> get props => [query];
+}

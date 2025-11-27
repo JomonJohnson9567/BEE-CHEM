@@ -5,6 +5,8 @@ import '../../data/models/personnel_model.dart';
 import '../../data/repository/personnel_repository.dart';
 import '../../data/services/api_service.dart';
 
+import 'package:rxdart/rxdart.dart';
+
 part 'personnel_list_event.dart';
 part 'personnel_list_state.dart';
 
@@ -15,6 +17,14 @@ class PersonnelListBloc extends Bloc<PersonnelListEvent, PersonnelListState> {
     on<PersonnelListRequested>(_onRequested);
     on<PersonnelListRefreshRequested>(_onRefreshRequested);
     on<PersonnelListSearchSubmitted>(_onSearchSubmitted);
+    on<PersonnelListSearchChanged>(
+      _onSearchChanged,
+      transformer: (events, mapper) {
+        return events
+            .debounceTime(const Duration(milliseconds: 300))
+            .asyncExpand(mapper);
+      },
+    );
   }
 
   final PersonnelRepository _repository;
@@ -99,15 +109,26 @@ class PersonnelListBloc extends Bloc<PersonnelListEvent, PersonnelListState> {
     PersonnelListSearchSubmitted event,
     Emitter<PersonnelListState> emit,
   ) {
-    final query = event.query.trim();
-    final filtered = _applySearch(query, state.allPersonnel);
+    _performSearch(emit, event.query);
+  }
+
+  void _onSearchChanged(
+    PersonnelListSearchChanged event,
+    Emitter<PersonnelListState> emit,
+  ) {
+    _performSearch(emit, event.query);
+  }
+
+  void _performSearch(Emitter<PersonnelListState> emit, String query) {
+    final trimmedQuery = query.trim();
+    final filtered = _applySearch(trimmedQuery, state.allPersonnel);
     final status = filtered.isEmpty
         ? PersonnelListStatus.empty
         : PersonnelListStatus.success;
 
     emit(
       state.copyWith(
-        searchQuery: query,
+        searchQuery: trimmedQuery,
         filteredPersonnel: filtered,
         status: status,
       ),
