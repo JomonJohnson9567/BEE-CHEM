@@ -8,6 +8,7 @@ import '../../../logic/personnel_list/personnel_list_bloc.dart';
 import '../add_personal details/personal_details_page.dart';
 import 'widget/header_widget.dart';
 import 'widget/personnal_card.dart';
+import 'widget/personnel_details_dialog.dart';
 import 'widget/searchbar_go_button.dart';
 
 class PersonnelListScreen extends StatelessWidget {
@@ -143,6 +144,12 @@ class _PersonnelList extends StatelessWidget {
                 : person.fullAddress,
             status: person.statusLabel,
             statusColor: person.isActive ? Colors.green : Colors.red,
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => PersonnelDetailsDialog(personnel: person),
+              );
+            },
           );
         },
       ),
