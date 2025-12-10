@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_machine_task/presentation/screens/personal%20details/widget/new_header.dart';
 import 'package:http/http.dart' as http;
-
 import 'core/constants/app_colors.dart';
 import 'data/repository/auth_repository.dart';
 import 'data/repository/personnel_repository.dart';

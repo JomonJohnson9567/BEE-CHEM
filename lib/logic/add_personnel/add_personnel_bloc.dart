@@ -17,46 +17,83 @@ class AddPersonnelBloc extends Bloc<AddPersonnelEvent, AddPersonnelState> {
     on<AddPersonnelRolesRetried>(_onRolesRetried);
     on<AddPersonnelFullNameChanged>(
       (event, emit) => emit(
-        state.copyWith(fullName: event.value, clearSubmissionError: true),
+        state.copyWith(
+          fullName: event.value,
+          clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('fullName'),
+        ),
       ),
     );
     on<AddPersonnelAddressChanged>(
       (event, emit) => emit(
-        state.copyWith(address: event.value, clearSubmissionError: true),
+        state.copyWith(
+          address: event.value,
+          clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('address'),
+        ),
       ),
     );
     on<AddPersonnelSuburbChanged>(
-      (event, emit) =>
-          emit(state.copyWith(suburb: event.value, clearSubmissionError: true)),
+      (event, emit) => emit(
+        state.copyWith(
+          suburb: event.value,
+          clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('suburb'),
+        ),
+      ),
     );
     on<AddPersonnelStateChanged>(
       (event, emit) => emit(
-        state.copyWith(stateName: event.value, clearSubmissionError: true),
+        state.copyWith(
+          stateName: event.value,
+          clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('state'),
+        ),
       ),
     );
     on<AddPersonnelPostcodeChanged>(
       (event, emit) => emit(
-        state.copyWith(postcode: event.value, clearSubmissionError: true),
+        state.copyWith(
+          postcode: event.value,
+          clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('postcode'),
+        ),
       ),
     );
     on<AddPersonnelCountryChanged>(
       (event, emit) => emit(
-        state.copyWith(country: event.value, clearSubmissionError: true),
+        state.copyWith(
+          country: event.value,
+          clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('country'),
+        ),
       ),
     );
     on<AddPersonnelContactNumberChanged>(
       (event, emit) => emit(
-        state.copyWith(contactNumber: event.value, clearSubmissionError: true),
+        state.copyWith(
+          contactNumber: event.value,
+          clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('contact'),
+        ),
       ),
     );
     on<AddPersonnelLatitudeChanged>(
       (event, emit) => emit(
-        state.copyWith(latitude: event.value, clearSubmissionError: true),
+        state.copyWith(
+          latitude: event.value,
+          clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('latitude'),
+        ),
       ),
     );
     on<AddPersonnelLongitudeChanged>(
       (event, emit) => emit(
-        state.copyWith(longitude: event.value, clearSubmissionError: true),
+        state.copyWith(
+          longitude: event.value,
+          clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('longitude'),
+        ),
       ),
     );
     on<AddPersonnelRoleToggled>(_onRoleToggled);
@@ -65,6 +102,7 @@ class AddPersonnelBloc extends Bloc<AddPersonnelEvent, AddPersonnelState> {
         state.copyWith(
           additionalNotes: event.value,
           clearSubmissionError: true,
+          errors: Map.of(state.errors)..remove('additionalNotes'),
         ),
       ),
     );
@@ -162,6 +200,18 @@ class AddPersonnelBloc extends Bloc<AddPersonnelEvent, AddPersonnelState> {
     AddPersonnelSubmitted event,
     Emitter<AddPersonnelState> emit,
   ) async {
+    final errors = _validate();
+    if (errors.isNotEmpty) {
+      emit(
+        state.copyWith(
+          submissionError: 'Please fix the errors above.',
+          submissionSuccess: false,
+          errors: errors,
+        ),
+      );
+      return;
+    }
+
     if (!state.canSubmit) {
       emit(
         state.copyWith(
@@ -210,5 +260,79 @@ class AddPersonnelBloc extends Bloc<AddPersonnelEvent, AddPersonnelState> {
         ),
       );
     }
+  }
+
+  Map<String, String> _validate() {
+    final errors = <String, String>{};
+
+    if (state.fullName.trim().isEmpty) {
+      errors['fullName'] = 'Full name is required';
+    } else if (state.fullName.trim().length < 2) {
+      errors['fullName'] = 'Full name must be at least 2 characters';
+    } else if (state.fullName.trim().length > 100) {
+      errors['fullName'] = 'Full name must be less than 100 characters';
+    } else if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(state.fullName.trim())) {
+      errors['fullName'] = 'Full name should only contain letters and spaces';
+    }
+
+    if (state.address.trim().isEmpty) {
+      errors['address'] = 'Address is required';
+    }
+
+    if (state.suburb.trim().isEmpty) {
+      errors['suburb'] = 'Suburb is required';
+    }
+
+    if (state.stateName.trim().isEmpty) {
+      errors['state'] = 'State is required';
+    }
+
+    if (state.postcode.trim().isEmpty) {
+      errors['postcode'] = 'Postcode is required';
+    } else if (!RegExp(r'^\d{4,6}$').hasMatch(state.postcode.trim())) {
+      errors['postcode'] = 'Enter valid postcode (4-6 digits)';
+    }
+
+    if (state.country.trim().isEmpty) {
+      errors['country'] = 'Country is required';
+    }
+
+    if (state.contactNumber.trim().isEmpty) {
+      errors['contact'] = 'Contact number is required';
+    } else {
+      final digitsOnly = state.contactNumber.replaceAll(RegExp(r'[^\d]'), '');
+      if (digitsOnly.length < 10 || digitsOnly.length > 15) {
+        errors['contact'] = 'Enter valid contact number (10-15 digits)';
+      }
+    }
+
+    if (state.latitude.trim().isEmpty) {
+      errors['latitude'] = 'Latitude is required';
+    } else {
+      final lat = double.tryParse(state.latitude.trim());
+      if (lat == null) {
+        errors['latitude'] = 'Enter valid latitude';
+      } else if (lat < -90 || lat > 90) {
+        errors['latitude'] = 'Latitude must be between -90 and 90';
+      }
+    }
+
+    if (state.longitude.trim().isEmpty) {
+      errors['longitude'] = 'Longitude is required';
+    } else {
+      final lng = double.tryParse(state.longitude.trim());
+      if (lng == null) {
+        errors['longitude'] = 'Enter valid longitude';
+      } else if (lng < -180 || lng > 180) {
+        errors['longitude'] = 'Longitude must be between -180 and 180';
+      }
+    }
+
+    if (state.additionalNotes.trim().length > 500) {
+      errors['additionalNotes'] =
+          'Additional notes must be less than 500 characters';
+    }
+
+    return errors;
   }
 }

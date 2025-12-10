@@ -20,6 +20,7 @@ class AddPersonnelState extends Equatable {
     this.isSubmitting = false,
     this.submissionError,
     this.submissionSuccess = false,
+    this.errors = const {},
   });
 
   final String fullName;
@@ -40,6 +41,7 @@ class AddPersonnelState extends Equatable {
   final bool isSubmitting;
   final String? submissionError;
   final bool submissionSuccess;
+  final Map<String, String> errors;
 
   bool get canSubmit =>
       fullName.trim().isNotEmpty && selectedRoleIds.isNotEmpty;
@@ -65,6 +67,7 @@ class AddPersonnelState extends Equatable {
     String? submissionError,
     bool clearSubmissionError = false,
     bool? submissionSuccess,
+    Map<String, String>? errors,
   }) {
     return AddPersonnelState(
       fullName: fullName ?? this.fullName,
@@ -87,6 +90,7 @@ class AddPersonnelState extends Equatable {
           ? null
           : (submissionError ?? this.submissionError),
       submissionSuccess: submissionSuccess ?? this.submissionSuccess,
+      errors: errors ?? this.errors,
     );
   }
 
@@ -110,5 +114,6 @@ class AddPersonnelState extends Equatable {
     isSubmitting,
     submissionError,
     submissionSuccess,
+    errors,
   ];
 }
