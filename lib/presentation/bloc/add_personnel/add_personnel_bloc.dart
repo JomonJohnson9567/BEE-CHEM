@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/models/add_personnel_request.dart';
-import '../../data/models/role_model.dart';
-import '../../data/repository/personnel_repository.dart';
-import '../../data/services/api_service.dart';
+import '../../../data/models/add_personnel_request.dart';
+import '../../../data/models/role_model.dart';
+import '../../../data/repository/personnel_repository.dart';
+import '../../../data/services/api_service.dart';
 
 part 'add_personnel_event.dart';
 part 'add_personnel_state.dart';

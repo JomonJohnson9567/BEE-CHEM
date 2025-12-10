@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/app_colors.dart';
 import '../../data/repository/auth_repository.dart';
-import '../../logic/logout/logout_bloc.dart';
+import '../bloc/logout/logout_bloc.dart';
 import '../screens/login_page/login.dart';
 
 class LogoutDialog extends StatelessWidget {

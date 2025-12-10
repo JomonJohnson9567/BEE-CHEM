@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_machine_task/core/constants/app_colors.dart';
 
 class CircleIcon extends StatelessWidget {
   final IconData icon;
@@ -8,8 +9,8 @@ class CircleIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: 25,
-      backgroundColor: Colors.white,
-      child: Icon(icon, color: Colors.black),
+      backgroundColor: AppColors.buttonTextSecondary,
+      child: Icon(icon, color: AppColors.buttonText),
     );
   }
 }

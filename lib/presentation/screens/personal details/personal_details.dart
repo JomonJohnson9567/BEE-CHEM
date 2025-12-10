@@ -4,7 +4,7 @@ import 'package:flutter_machine_task/presentation/widgets/shimmer_loading.dart';
 
 import '../../../data/models/personnel_model.dart';
 import '../../../data/repository/personnel_repository.dart';
-import '../../../logic/personnel_list/personnel_list_bloc.dart';
+import '../../bloc/personnel_list/personnel_list_bloc.dart';
 import '../add_personal details/personal_details_page.dart';
 import 'widget/header_widget.dart';
 import 'widget/personnal_card.dart';

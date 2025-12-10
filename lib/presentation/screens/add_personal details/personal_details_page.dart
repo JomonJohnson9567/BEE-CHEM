@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../data/repository/personnel_repository.dart';
-import '../../../logic/add_personnel/add_personnel_bloc.dart';
+import '../../bloc/add_personnel/add_personnel_bloc.dart';
 import 'widgets/action_buttons.dart';
 import 'widgets/checkbox.dart';
 import 'widgets/double_text_field_row.dart';

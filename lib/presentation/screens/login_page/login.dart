@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_machine_task/data/repository/auth_repository.dart';
-import 'package:flutter_machine_task/logic/login/login_bloc.dart';
-import 'package:flutter_machine_task/logic/login/login_event.dart';
+import 'package:flutter_machine_task/presentation/bloc/login/login_bloc.dart';
+import 'package:flutter_machine_task/presentation/bloc/login/login_event.dart';
 import 'package:flutter_machine_task/presentation/screens/login_page/widgets/divider_widget.dart';
 import 'package:flutter_machine_task/presentation/screens/login_page/widgets/honeycomb_header.dart';
 import 'package:flutter_machine_task/presentation/screens/login_page/widgets/login_form.dart';

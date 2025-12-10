@@ -58,12 +58,40 @@ class RoleSelectionSection extends StatelessWidget {
                 : Column(
                     children: roles.map((role) {
                       final isSelected = selectedRoleIds.contains(role.id);
-                      return CheckboxListTile(
-                        title: Text(role.name),
-                        value: isSelected,
-                        onChanged: (value) => onToggle(role.id, value ?? false),
-                        controlAffinity: ListTileControlAffinity.leading,
-                        contentPadding: EdgeInsets.zero,
+                      return GestureDetector(
+                        onTap: () => onToggle(role.id, !isSelected),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: isSelected
+                                        ? AppColors.checkboxActive
+                                        : AppColors.textSecondary,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: isSelected
+                                      ? AppColors.checkboxActive
+                                      : Colors.transparent,
+                                ),
+                                child: isSelected
+                                    ? const Icon(
+                                        Icons.check,
+                                        size: 16,
+                                        color: AppColors.buttonText,
+                                      )
+                                    : null,
+                              ),
+                              const SizedBox(width: 12),
+                              Text(role.name),
+                            ],
+                          ),
+                        ),
                       );
                     }).toList(),
                   ),

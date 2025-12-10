@@ -101,6 +101,16 @@ class AuthRepository {
     return token != null && token.isNotEmpty;
   }
 
+  /// Checks if the user should be automatically logged in.
+  /// Returns true only if both a valid token exists AND remember-me is enabled.
+  Future<bool> shouldAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(_tokenKey);
+    final rememberMeEnabled = prefs.getBool(_rememberFlagKey) ?? false;
+
+    return token != null && token.isNotEmpty && rememberMeEnabled;
+  }
+
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);

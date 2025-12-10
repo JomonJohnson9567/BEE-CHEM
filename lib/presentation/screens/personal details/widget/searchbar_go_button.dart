@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../logic/personnel_list/personnel_list_bloc.dart';
+import '../../../bloc/personnel_list/personnel_list_bloc.dart';
 
 class SearchBarSection extends StatefulWidget {
   const SearchBarSection({super.key});

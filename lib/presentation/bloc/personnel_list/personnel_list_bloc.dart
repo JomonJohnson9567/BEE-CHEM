@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/models/personnel_model.dart';
-import '../../data/repository/personnel_repository.dart';
-import '../../data/services/api_service.dart';
+import '../../../data/models/personnel_model.dart';
+import '../../../data/repository/personnel_repository.dart';
+import '../../../data/services/api_service.dart';
 
 import 'package:rxdart/rxdart.dart';
 

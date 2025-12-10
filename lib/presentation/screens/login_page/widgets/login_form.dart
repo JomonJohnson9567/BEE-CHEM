@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_machine_task/core/constants/app_colors.dart';
 import 'package:flutter_machine_task/core/controllers/app_controllers.dart';
-import 'package:flutter_machine_task/logic/login/login_bloc.dart';
-import 'package:flutter_machine_task/logic/login/login_event.dart';
-import 'package:flutter_machine_task/logic/login/login_state.dart';
+import 'package:flutter_machine_task/presentation/bloc/login/login_bloc.dart';
+import 'package:flutter_machine_task/presentation/bloc/login/login_event.dart';
+import 'package:flutter_machine_task/presentation/bloc/login/login_state.dart';
 import 'package:flutter_machine_task/presentation/screens/login_page/widgets/login_button.dart';
 import 'package:flutter_machine_task/presentation/screens/login_page/widgets/login_textfield.dart';
 import 'package:flutter_machine_task/presentation/screens/login_page/widgets/remember_me_checkbox.dart';
